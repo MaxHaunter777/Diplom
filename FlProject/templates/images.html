@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Изображения{% endblock %}
+
+{% block content %}
+    <h2>Галерея изображений</h2>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="image" required>
+        <textarea name="description" placeholder="Описание" rows="2"></textarea>
+        <button type="submit">Загрузить</button>
+    </form>
+    <hr>
+    {% for image in images %}
+        <div class="image">
+        <a href="{{ url_for('image_detail', image_id=image.id) }}">
+        <img src="{{ url_for('uploaded_file', filename=image.image_path.split('/')[-1]) }}" alt="Изображение">
+        </a>
+        <p>{{ image.description }}</p>
+        <p>Загружено: {{ image.user.username }} | {{ image.timestamp }}</p>
+        <h4>Комментарии:</h4>
+        <ul>
+        {% for comment in image.comments %}
+        <li><strong>{{ comment.user.username }}:</strong> {{ comment.content }}</li>
+        {% endfor %}
+        </ul>
+        <form method="POST" action="{{ url_for('add_comment', image_id=image.id) }}">
+        <textarea name="comment" placeholder="Добавить комментарий" rows="2" required></textarea>
+        <button type="submit">Комментировать</button>
+        </form>
+        </div>
+    {% endfor %}
+{% endblock %}

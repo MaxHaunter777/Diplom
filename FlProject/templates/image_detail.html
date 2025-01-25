@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<img src="{{ url_for('uploaded_file', filename=image.image_path.split('/')[-1]) }}" alt="{{ image.description }}" width="500">
+<p>{{ image.description }}</p>
+
+<h2>Комментарии</h2>
+<ul>
+{% for comment in comments %}
+<li><strong>{{ comment.user.username }}:</strong> {{ comment.content }}</li>
+{% else %}
+<li>Комментариев пока нет.</li>
+{% endfor %}
+</ul>
+
+<h3>Добавить комментарий</h3>
+<form method="post" action="{{ url_for('add_comment', image_id=image.id) }}">
+<textarea name="comment" required></textarea>
+<button type="submit">Добавить</button>
+</form>
+{% endblock %}
