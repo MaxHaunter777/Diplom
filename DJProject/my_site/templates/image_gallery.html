@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+		{% block content %}
+		    <h2>Изображения</h2>
+    <h3><a href="{% url 'upload_image' %}">Загрузить изображение</a></h3>
+
+    <div class="image-grid">  <!-- Добавляем класс для стилизации -->
+        {% for image in images %}
+            <figure class="image-item">
+                <a href="{% url 'image_detail' image.id %}">
+                    <img src="{{ image.image.url }}" alt="{{ image.title }}" width="200">
+                </a>
+                <figcaption>{{ image.title }}</figcaption>
+            </figure>
+        {% empty %}
+            <p>Изображений нет.</p>
+        {% endfor %}
+    </div>
+		{% endblock %}
