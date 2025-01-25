@@ -21,9 +21,9 @@ class CustomUser(AbstractUser):
 
 
 class Image(models.Model):
-    """Создание модели с описанием характеристик для загруженных фотографий.
-    Данная модель сохраняет загруженные фотографии в директорию 'photos/',
-    а также связывает фотографию с пользователем, который ее загрузил."""
+    """Создание модели с описанием характеристик для загруженных изображений.
+    Данная модель сохраняет загруженные изображения в директорию 'images/',
+    а также связывает изображение с пользователем, который ее загрузил."""
     image = models.ImageField(upload_to='media/')
     title = models.CharField(max_length=100, verbose_name="Название")
     description = models.TextField(blank=True, verbose_name="Описание")
@@ -38,7 +38,7 @@ class Image(models.Model):
 
 class Comment(models.Model):
     """Создание модели для хранения комментариев к картинке.
-    Связывает комментарий с конкретной фотографией и пользователем,
+    Связывает комментарий с конкретным изаображением и пользователем,
     который его оставил."""
     image = models.ForeignKey(Image, on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='comments')
