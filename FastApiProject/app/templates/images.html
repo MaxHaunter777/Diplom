@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Список изображений{% endblock %}
+
+{% block content %}
+<br><br>
+<h2>Список изображений</h2>
+        {% if current_user %}
+            <p>Вы вошли как: {{ current_user.username }}</p>
+        {% else %}
+            <p>Вы не авторизованы. Пожалуйста, <a href="/login">войдите</a>.</p>
+        {% endif %}
+        <!-- Форма загрузки изображения -->
+        <form action="/upload_image" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" required>
+            <input type="text" name="description" placeholder="Описание">
+            <button type="submit">Загрузить изображение</button>
+        </form>
+
+        <hr>
+
+        <!-- Список изображений -->
+        {% for image in images %}
+        <div class="image-item">
+            <a href="/get_image/{{ image.id }}"><img src="/uploads/{{ image.filename }}" alt="Изображение {{ image.id }}"></a>
+
+            <!-- Комментарии и форма добавления -->
+            <div class="comments-section">
+                <p><strong>Описание:</strong> {{ image.description }}</p>
+                <div>
+                    <strong>Комментарии:</strong>
+                    {% if image.comments %}
+                        {% for comment in image.comments %}
+                    <li><div class="comment"><strong>{{ comment.user.username }}:</strong> {{ comment.text }}</div></li>
+                        {% endfor %}
+                    {% else %}
+                        <p>Комментариев пока нет.</p>
+                    {% endif %}
+                </div>
+
+                <!-- Форма добавления комментария -->
+                <div class="add-comment">
+                    <form action="/images/{{ image.id }}/comments" method="post">
+                        <input type="hidden" name="user_id" value="{{ current_user.id }}">
+                        <input type="text" name="text" placeholder="Оставьте комментарий">
+                        <button type="submit">Отправить</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+{% endblock %}

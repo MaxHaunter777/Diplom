@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}My Site{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}" type="text/css" media="all">
+    <link rel="shortcut icon" href="{{ url_for('static', path='css/images/favicon.ico') }}">
+</head>
+<body>
+    {% if message %}
+    <p>{{ message }}</p>
+    {% endif %}
+    <div class="shell">
+        <div class="border">
+        {% block navigation %}
+        <div id="navigation">
+            <ul>
+            <li><a href="/">Главная</a></li>
+            <li><a href="/reg">Регистрация</a></li>
+            <li><a href="/login">Вход</a></li>
+            <li><a href="/list">Список пользователей</a></li>
+            <li><a href="/images">Изображения</a></li>
+            <li>
+            <form method="post" action="{{ url_for('logout') }}">
+            <button type="submit">Выйти</button>
+            </form>
+            </li>
+            </ul>
+        </div>
+        {% endblock %}
+        {% block content %}
+
+            {% endblock %}
+</div>
+        <br><br>
+    {% block footer %}
+    <div id="footer">
+    <p class="copy right">Copyright © 2025</p>
+    </div>
+    {% endblock %}
+</div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Изображение{% endblock %}
+
+    {% block content %}
+    <br><br>
+   <h2>Изображение {{ image.id }}</h2>
+    <div class="image-item">
+    <img src="/uploads/{{ image.filename }}" alt="Изображение {{ image.id }}">
+    </div>
+    <div class="description">
+    <p><strong>Описание:</strong> {{ image.description }}</p>
+    <strong>Комментарии:</strong>
+                    {% if image.comments %}
+                        {% for comment in image.comments %}
+                        <li><div class="comment"><strong>{{ comment.user.username }}:</strong> {{ comment.text }}</div></li>
+                        {% endfor %}
+                    {% else %}
+                        <p>Комментариев пока нет.</p>
+                    {% endif %}
+
+    <p><button><a href="http://127.0.0.1:8000/images">Вернуться в общий список изображений</a></button></p>
+    </div>
+    {% endblock %}
